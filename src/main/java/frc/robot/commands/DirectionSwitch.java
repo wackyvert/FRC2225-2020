@@ -17,7 +17,7 @@ import frc.robot.subsystems.Drivetrain;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class DirectionSwitch extends InstantCommand {
   public DirectionSwitch() {
-    addRequirements(Robot.m_Drivetrain);
+
   }
 
   // Called when the command is initially scheduled.

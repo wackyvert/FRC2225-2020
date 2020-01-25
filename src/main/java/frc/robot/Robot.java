@@ -11,16 +11,25 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.DirectionSwitch;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.I2C;
+
+import java.util.Map;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -31,11 +40,18 @@ import edu.wpi.first.wpilibj.I2C;
 public class Robot extends TimedRobot {
   public static final Drivetrain m_Drivetrain = new Drivetrain();
   private NetworkTableEntry joyOrX;
+  private NetworkTableEntry shooterSlider;
+  private NetworkTableEntry intakeSlider;
   public static final ArcadeDrive m_ArcadeDrive = new ArcadeDrive(m_Drivetrain);
 //This is code for the color sensor we use for the wheel of fortune
   private RobotContainer m_robotContainer;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
   private final ColorMatch m_colorMatcher = new ColorMatch();
+  private double shooterVal;
+  private double intakeVal;
+  private XboxController controller = new XboxController(0);
+    double left_command;
+    double right_command;
 
   /**
    * Note: Any example colors should be calibrated as the user needs, these
@@ -45,20 +61,32 @@ public class Robot extends TimedRobot {
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-
+private double driveCommand;
+private double steerCommand;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
   public void robotInit() {
+      CameraServer camera = CameraServer.getInstance();
+      camera.startAutomaticCapture();
     //This is a toggle button that shows up on the dashboard so I can switch between using a joystick or a controller
-    
-    joyOrX = Shuffleboard.getTab("Controller Select")
+    SmartDashboard.putData("Direction Switch", new DirectionSwitch());
+    joyOrX = Shuffleboard.getTab("Robot Control")
                 .add("Joystick Enabled?", false)
                 .withWidget("Toggle Button")
                 .getEntry();
-
+      shooterSlider = Shuffleboard.getTab("Shooter")
+              .add("Output Value", 0)
+              .withWidget(BuiltInWidgets.kNumberSlider)
+              .withProperties(Map.of("min", -1, "max", 1))
+              .getEntry();
+      intakeSlider = Shuffleboard.getTab("Intake")
+              .add("Output Value", 0)
+              .withWidget(BuiltInWidgets.kNumberSlider)
+              .withProperties(Map.of("min", -1, "max", 1))
+              .getEntry();
     m_robotContainer = new RobotContainer();
     CommandScheduler.getInstance().setDefaultCommand(m_Drivetrain, m_ArcadeDrive);
   }
@@ -113,6 +141,9 @@ public class Robot extends TimedRobot {
           Constants.ControllerAxisNum[0]=4;
           Constants.ControllerAxisNum[1]=1;
         }
+        intakeVal = intakeSlider.getDouble(0);
+        shooterVal = intakeSlider.getDouble(0);
+
   }
 
   /**
@@ -149,12 +180,44 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     
   }
+    public void updateTracking(){
+
+        float Kp = -0.1f;
+        float min_command = 0.05f;
+
+        NetworkTableInstance.getDefault().getTable("vision").getEntry("X").getDouble(0);
+
+        NetworkTableInstance.getDefault().getTable("vision").getEntry("Y").getDouble(0);
+        float tx =(float)NetworkTableInstance.getDefault().getTable("vision").getEntry("X").getDouble(0);
+
+        System.out.println("X: "+tx);
+        if (controller.getAButton())
+        {
+            float heading_error = -tx;
+            float steering_adjust = 0.0f;
+            if (tx > 1.0)
+            {
+                steering_adjust = Kp*heading_error - min_command;
+            }
+            else if (tx < 1.0)
+            {
+                steering_adjust = Kp*heading_error + min_command;
+            }
+            left_command += steering_adjust;
+            right_command -= steering_adjust;
+        }}
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
+      updateTracking();
+      boolean auto = controller.getAButton();
+      if(auto){
+          System.out.println("PLEASE WORK");
+          m_Drivetrain.setVoltage(left_command, right_command);
+      }
   }
 
   @Override

@@ -13,6 +13,8 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import javax.naming.ldap.Control;
+
 public class Drivetrain extends SubsystemBase {
   private final TalonSRX fl = new TalonSRX(Constants.FRONT_LEFT_ID);
   private final TalonSRX bl = new TalonSRX(Constants.BACK_LEFT_ID);
@@ -39,6 +41,14 @@ public class Drivetrain extends SubsystemBase {
     bl.set(ControlMode.PercentOutput, speedLeft);
     fr.set(ControlMode.PercentOutput, speedRight);
     br.set(ControlMode.PercentOutput, speedRight);
+  }
+  public void visionVoltage(double speed, double turn){
+      double left = speed+turn;
+      double right = speed-turn;
+      fl.set(ControlMode.PercentOutput, left);
+      bl.set(ControlMode.PercentOutput, left);
+      fr.set(ControlMode.PercentOutput, right);
+      br.set(ControlMode.PercentOutput, right);
   }
 
   @Override
