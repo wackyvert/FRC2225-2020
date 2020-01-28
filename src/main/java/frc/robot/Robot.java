@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DirectionSwitch;
-import frc.robot.commands.Shooter;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
@@ -40,13 +39,11 @@ import java.util.Map;
  */
 public class Robot extends TimedRobot {
   public static final Drivetrain m_Drivetrain = new Drivetrain();
-  public static final Shooter m_Shooter = new Shooter();
-  public static final frc.robot.subsystems.Shooter m_ShooterSystem = new frc.robot.subsystems.Shooter();
   public VictorSPX shooterMotor = new VictorSPX(5);
   public TalonSRX feeder = new TalonSRX(6);
   private NetworkTableEntry joyOrX;
-  public static NetworkTableEntry shooterSlider;
-  public static NetworkTableEntry intakeSlider;
+  private NetworkTableEntry shooterSlider;
+  private NetworkTableEntry intakeSlider;
   public static final ArcadeDrive m_ArcadeDrive = new ArcadeDrive(m_Drivetrain);
 //This is code for the color sensor we use for the wheel of fortune
   private RobotContainer m_robotContainer;
@@ -54,7 +51,7 @@ public class Robot extends TimedRobot {
   private final ColorMatch m_colorMatcher = new ColorMatch();
   private double shooterVal;
   private double intakeVal;
-  private XboxController controller = new XboxController(Constants.JOYSTICK_ID);
+  private XboxController controller = new XboxController(0);
     double left_command;
     double right_command;
 
@@ -218,8 +215,16 @@ private double steerCommand;
    */
   @Override
   public void teleopPeriodic() {
-      shooterMotor.set(ControlMode.PercentOutput, controller.getTriggerAxis(GenericHID.Hand.kRight));
-      feeder.set(ControlMode.PercentOutput, controller.getTriggerAxis(GenericHID.Hand.kLeft));
+      updateTracking();
+      boolean auto = controller.getAButton();
+      if(auto){
+          System.out.println("PLEASE WORK");
+          m_Drivetrain.setVoltage(left_command, right_command);
+      }
+      shooterMotor.set(ControlMode.PercentOutput, -shooterSlider.getDouble(0));
+      if(controller.getYButtonPressed()){
+          feeder.set(ControlMode.PercentOutput, 1);
+      }
   }
 
   @Override
