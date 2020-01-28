@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
@@ -14,9 +17,7 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,9 +26,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DirectionSwitch;
+import frc.robot.commands.Shooter;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.I2C;
 
 import java.util.Map;
 
@@ -39,9 +40,13 @@ import java.util.Map;
  */
 public class Robot extends TimedRobot {
   public static final Drivetrain m_Drivetrain = new Drivetrain();
+  public static final Shooter m_Shooter = new Shooter();
+  public static final frc.robot.subsystems.Shooter m_ShooterSystem = new frc.robot.subsystems.Shooter();
+  public VictorSPX shooterMotor = new VictorSPX(5);
+  public TalonSRX feeder = new TalonSRX(6);
   private NetworkTableEntry joyOrX;
-  private NetworkTableEntry shooterSlider;
-  private NetworkTableEntry intakeSlider;
+  public static NetworkTableEntry shooterSlider;
+  public static NetworkTableEntry intakeSlider;
   public static final ArcadeDrive m_ArcadeDrive = new ArcadeDrive(m_Drivetrain);
 //This is code for the color sensor we use for the wheel of fortune
   private RobotContainer m_robotContainer;
@@ -49,7 +54,7 @@ public class Robot extends TimedRobot {
   private final ColorMatch m_colorMatcher = new ColorMatch();
   private double shooterVal;
   private double intakeVal;
-  private XboxController controller = new XboxController(0);
+  private XboxController controller = new XboxController(Constants.JOYSTICK_ID);
     double left_command;
     double right_command;
 
@@ -82,6 +87,7 @@ private double steerCommand;
               .withWidget(BuiltInWidgets.kNumberSlider)
               .withProperties(Map.of("min", -1, "max", 1))
               .getEntry();
+
       intakeSlider = Shuffleboard.getTab("Intake")
               .add("Output Value", 0)
               .withWidget(BuiltInWidgets.kNumberSlider)
@@ -195,11 +201,11 @@ private double steerCommand;
         {
             float heading_error = -tx;
             float steering_adjust = 0.0f;
-            if (tx > 1.0)
+            if (tx > 300)
             {
                 steering_adjust = Kp*heading_error - min_command;
             }
-            else if (tx < 1.0)
+            else if (tx < 300)
             {
                 steering_adjust = Kp*heading_error + min_command;
             }
@@ -212,12 +218,8 @@ private double steerCommand;
    */
   @Override
   public void teleopPeriodic() {
-      updateTracking();
-      boolean auto = controller.getAButton();
-      if(auto){
-          System.out.println("PLEASE WORK");
-          m_Drivetrain.setVoltage(left_command, right_command);
-      }
+      shooterMotor.set(ControlMode.PercentOutput, controller.getTriggerAxis(GenericHID.Hand.kRight));
+      feeder.set(ControlMode.PercentOutput, controller.getTriggerAxis(GenericHID.Hand.kLeft));
   }
 
   @Override
