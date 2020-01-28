@@ -219,7 +219,7 @@ private double steerCommand;
       boolean auto = controller.getAButton();
       if(auto){
           System.out.println("PLEASE WORK");
-          m_Drivetrain.setVoltage(left_command, right_command);
+         // m_Drivetrain.setVoltage(left_command, right_command);
       }
       shooterMotor.set(ControlMode.PercentOutput, -shooterSlider.getDouble(0));
       if(controller.getYButtonPressed()){
