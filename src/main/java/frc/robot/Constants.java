@@ -21,8 +21,10 @@ public final class Constants {
     public static final int BACK_LEFT_ID=1;   //back left motor CAN ID
     public static final int FRONT_RIGHT_ID=2; //front right motor CAN ID
     public static final int BACK_RIGHT_ID=3;  //back right motor CAN ID
+    public static final int FEEDER_ID = 4;
     public static final int DRIVER1_ID=0;     //Driver XboxController USB ID
 	public static final int JOYSTICK_ID = 1;  //Driver sidewinder joystick USB ID
+	public static final double OPTIMAL_SHOOTER_SPEED = .9;
     public static int[] ControllerAxisNum= {4, 1};
 }
 

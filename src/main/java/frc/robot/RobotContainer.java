@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DirectionSwitch;
+import frc.robot.commands.ShootBall;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Shooter;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -25,9 +27,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain m_Drivetrain = new Drivetrain();
-
-  private final ArcadeDrive m_ArcadeDrive = new ArcadeDrive(m_Drivetrain);
+  public static final Drivetrain m_Drivetrain = new Drivetrain();
+  public static final ArcadeDrive m_ArcadeDrive = new ArcadeDrive(m_Drivetrain);
+  public static final ShootBall m_shootBall = new ShootBall();
+  public static final Shooter m_Shooter = new Shooter();
 
   private final Joystick controller1 = new Joystick(Constants.DRIVER1_ID);
   

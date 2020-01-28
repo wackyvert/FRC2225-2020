@@ -21,38 +21,50 @@ public class Drivetrain extends SubsystemBase {
   private final TalonSRX fr = new TalonSRX(Constants.FRONT_RIGHT_ID);
   private final TalonSRX br = new TalonSRX(Constants.BACK_RIGHT_ID);
   public static boolean switcher;
+
   /**
    * Creates a new Drivetrain constructor
    */
   public Drivetrain() {
 
   }
-  //Switches which side of the robot is considered "forward"
-  public void switchDirection(){
-    switcher^=true;
+
+  // Switches which side of the robot is considered "forward"
+  public void switchDirection() {
+    switcher ^= true;
     fl.setInverted(switcher);
     bl.setInverted(switcher);
     fr.setInverted(switcher);
     br.setInverted(switcher);
   }
-  //Sets the motor voltage so we can drive
-  public void setVoltage(double speedLeft, double speedRight){
+
+  // Sets the motor voltage so we can drive
+  public void setVoltage(double speedLeft, double speedRight) {
     fl.set(ControlMode.PercentOutput, speedLeft);
     bl.set(ControlMode.PercentOutput, speedLeft);
     fr.set(ControlMode.PercentOutput, speedRight);
     br.set(ControlMode.PercentOutput, speedRight);
   }
-  public void visionVoltage(double speed, double turn){
-      double left = speed+turn;
-      double right = speed-turn;
-      fl.set(ControlMode.PercentOutput, left);
-      bl.set(ControlMode.PercentOutput, left);
-      fr.set(ControlMode.PercentOutput, right);
-      br.set(ControlMode.PercentOutput, right);
+
+  public void stopDrivetrain() {
+    fl.set(ControlMode.PercentOutput, 0);
+    bl.set(ControlMode.PercentOutput, 0);
+    fr.set(ControlMode.PercentOutput, 0);
+    br.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void visionVoltage(double speed, double turn) {
+    double left = speed + turn;
+    double right = speed - turn;
+    fl.set(ControlMode.PercentOutput, left);
+    bl.set(ControlMode.PercentOutput, left);
+    fr.set(ControlMode.PercentOutput, right);
+    br.set(ControlMode.PercentOutput, right);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run, but we dont use this part because we have a command for it instead
+    // This method will be called once per scheduler run, but we dont use this part
+    // because we have a command for it instead
   }
 }
