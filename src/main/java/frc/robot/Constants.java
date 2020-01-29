@@ -25,6 +25,7 @@ public final class Constants {
     public static final int DRIVER1_ID=0;     //Driver XboxController USB ID
 	public static final int JOYSTICK_ID = 1;  //Driver sidewinder joystick USB ID
 	public static final double OPTIMAL_SHOOTER_SPEED = .9;
-    public static int[] ControllerAxisNum= {4, 1};
+	public static final int DRIVER2_ID = 1;
+    public static int[] ControllerAxisNum= {4, 1, 1};
 }
 

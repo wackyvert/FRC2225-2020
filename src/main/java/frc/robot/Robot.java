@@ -33,6 +33,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 
 import java.util.Map;
 
+import static edu.wpi.first.wpilibj2.command.CommandScheduler.getInstance;
+import static frc.robot.RobotContainer.m_Shooter;
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -40,7 +43,6 @@ import java.util.Map;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static Object m_Drivetrain;
 public VictorSPX shooterMotor = new VictorSPX(5);
   public TalonSRX feeder = new TalonSRX(6);
   private NetworkTableEntry joyOrX;
@@ -68,14 +70,30 @@ public VictorSPX shooterMotor = new VictorSPX(5);
    */
   @Override
   public void robotInit() {
+      joyOrX = Shuffleboard.getTab("Robot Control")
+              .add("Joystick Enabled?", false)
+              .withWidget("Toggle Button")
+              .getEntry();
+      //Slider to set shooter motor
+      shooterSlider = Shuffleboard.getTab("Shooter")
+              .add("Output Value", 0)
+              .withWidget(BuiltInWidgets.kNumberSlider)
+              .withProperties(Map.of("min", -1, "max", 1))
+              .getEntry();
+
+      intakeSlider = Shuffleboard.getTab("Intake")
+              .add("Output Value", 0)
+              .withWidget(BuiltInWidgets.kNumberSlider)
+              .withProperties(Map.of("min", -1, "max", 1))
+              .getEntry();
     //makes new camera  
     final CameraServer camera = CameraServer.getInstance();
       camera.startAutomaticCapture();
     m_robotContainer = new RobotContainer();
     //Sets the default command of the drivetrain subsystem to arcade drive
-    CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_Drivetrain, RobotContainer.m_ArcadeDrive);
+    getInstance().setDefaultCommand(RobotContainer.m_Drivetrain, RobotContainer.m_ArcadeDrive);
     //Sets the default command of the shooter subsystem to the shootBall command
-    CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_Shooter, RobotContainer.m_shootBall);
+    //getInstance().setDefaultCommand(RobotContainer.m_Shooter, RobotContainer.m_shootBall);
   }
 
   /**
@@ -88,22 +106,7 @@ public VictorSPX shooterMotor = new VictorSPX(5);
   @Override
   public void robotPeriodic() {
     SmartDashboard.putData("Direction Switch", new DirectionSwitch());
-    joyOrX = Shuffleboard.getTab("Robot Control")
-                .add("Joystick Enabled?", false)
-                .withWidget("Toggle Button")
-                .getEntry();
-    //Slider to set shooter motor
-    shooterSlider = Shuffleboard.getTab("Shooter")
-              .add("Output Value", 0)
-              .withWidget(BuiltInWidgets.kNumberSlider)
-              .withProperties(Map.of("min", -1, "max", 1))
-              .getEntry();
 
-      intakeSlider = Shuffleboard.getTab("Intake")
-              .add("Output Value", 0)
-              .withWidget(BuiltInWidgets.kNumberSlider)
-              .withProperties(Map.of("min", -1, "max", 1))
-              .getEntry();
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -111,7 +114,7 @@ public VictorSPX shooterMotor = new VictorSPX(5);
 
     
    //The scheduler that runs the commands. DONT TOUCH
-    CommandScheduler.getInstance().run();
+    getInstance().run();
         
     //Color sensor code
     final Color detectedColor = m_colorSensor.getColor();
@@ -155,8 +158,6 @@ public VictorSPX shooterMotor = new VictorSPX(5);
    */
   @Override
   public void disabledInit() {
-    RobotContainer.m_Drivetrain.stopDrivetrain();
-    RobotContainer.m_Shooter.stopShooter();
   }
 
   @Override
@@ -184,7 +185,7 @@ public VictorSPX shooterMotor = new VictorSPX(5);
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    
+
   }
     public void updateTracking(){
 
@@ -218,16 +219,18 @@ public VictorSPX shooterMotor = new VictorSPX(5);
   @Override
   public void teleopPeriodic() {
     
-      shooterMotor.set(ControlMode.PercentOutput, -shooterSlider.getDouble(0));
+
+      //shooterMotor.set(ControlMode.PercentOutput, -shooterSlider.getDouble(0));
+     // m_Shooter.startFeeder();
       if(controller.getYButtonPressed()){
-          feeder.set(ControlMode.PercentOutput, 1);
+          //feeder.set(ControlMode.PercentOutput, 1);
       }
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
+    getInstance().cancelAll();
   }
 
   /**

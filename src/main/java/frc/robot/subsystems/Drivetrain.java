@@ -13,13 +13,11 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import javax.naming.ldap.Control;
-
 public class Drivetrain extends SubsystemBase {
-  private final TalonSRX fl = new TalonSRX(Constants.FRONT_LEFT_ID);
-  private final TalonSRX bl = new TalonSRX(Constants.BACK_LEFT_ID);
-  private final TalonSRX fr = new TalonSRX(Constants.FRONT_RIGHT_ID);
-  private final TalonSRX br = new TalonSRX(Constants.BACK_RIGHT_ID);
+  private static final TalonSRX fl = new TalonSRX(Constants.FRONT_LEFT_ID);
+  private static final TalonSRX bl = new TalonSRX(Constants.BACK_LEFT_ID);
+  private static final TalonSRX fr = new TalonSRX(Constants.FRONT_RIGHT_ID);
+  private static final TalonSRX br = new TalonSRX(Constants.BACK_RIGHT_ID);
   public static boolean switcher;
 
   /**
@@ -30,7 +28,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Switches which side of the robot is considered "forward"
-  public void switchDirection() {
+  public static void switchDirection() {
     switcher ^= true;
     fl.setInverted(switcher);
     bl.setInverted(switcher);

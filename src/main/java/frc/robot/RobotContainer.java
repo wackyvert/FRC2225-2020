@@ -13,11 +13,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DirectionSwitch;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.ShootOne;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import javafx.scene.control.skin.TextInputControlSkin;
+
+import java.nio.file.DirectoryStream;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -29,10 +34,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final Drivetrain m_Drivetrain = new Drivetrain();
   public static final ArcadeDrive m_ArcadeDrive = new ArcadeDrive(m_Drivetrain);
-  public static final ShootBall m_shootBall = new ShootBall();
   public static final Shooter m_Shooter = new Shooter();
-
+  public static final ShootBall m_shootBall = new ShootBall();
+  public static final DirectionSwitch m_DirectionSwitch = new DirectionSwitch();
   private final Joystick controller1 = new Joystick(Constants.DRIVER1_ID);
+  private final XboxController XboxController1 = new XboxController(Constants.DRIVER1_ID);
+  private final Joystick controller2 = new Joystick(Constants.DRIVER2_ID);
   
 
   /**
@@ -52,24 +59,37 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //Initializing every button on the controller so we can bind them to commands
-    final JoystickButton aButton = new JoystickButton(controller1, 1);
-    final JoystickButton bButton = new JoystickButton(controller1, 2);
-    final JoystickButton xButton = new JoystickButton(controller1, 3);
-    final JoystickButton yButton = new JoystickButton(controller1, 4);
+    final JoystickButton aButton1 = new JoystickButton(controller1, 1);
+    final JoystickButton bButton1 = new JoystickButton(controller1, 2);
+    final JoystickButton xButton1 = new JoystickButton(controller1, 3);
+    final JoystickButton yButton1 = new JoystickButton(controller1, 4);
+    final JoystickButton aButton2 = new JoystickButton(controller2, 1);
+    final JoystickButton bButton2 = new JoystickButton(controller2, 2);
+    final JoystickButton xButton2 = new JoystickButton(controller2, 3);
+    final JoystickButton yButton2 = new JoystickButton(controller2, 4);
     final JoystickButton rightBumperButton = new JoystickButton(controller1, 5);
     final JoystickButton leftBumperButton = new JoystickButton(controller1, 6);
     final JoystickButton squareButton = new JoystickButton(controller1, 7);
     final JoystickButton startButton = new JoystickButton(controller1, 8);
-    final JoystickButton righJoystickButton = new JoystickButton(controller1, 9);
+    final JoystickButton rightJoystickButton = new JoystickButton(controller1, 9);
     final JoystickButton leftJoystickButton = new JoystickButton(controller1, 10);
+    
 
-    xButton.whenPressed(new DirectionSwitch());
+
+    //xButton2.whenPressed(new ShootOne());
+
+
+    xButton1.whenPressed(new DirectionSwitch());
+    xButton2.whenPressed(new ShootBall());
+
+
 
 
 
 
   }
-
+  //Getting the trigger as a button instead of an axis, as we dont really want any variability in how fast the shooter goes
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -78,3 +98,4 @@ public class RobotContainer {
    */
   
 }
+

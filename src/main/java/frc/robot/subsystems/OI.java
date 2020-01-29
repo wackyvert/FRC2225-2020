@@ -23,10 +23,10 @@ public class OI extends SubsystemBase {
 
   }
   public static double getSpeedVal(){
-    return ScaleInputs.scaleInputs(controller1.getRawAxis(4));
+    return ScaleInputs.scaleInputs(controller1.getRawAxis(Constants.ControllerAxisNum[0]));
   }
   public static double getTurnVal(){
-    return ScaleInputs.scaleInputs(controller1.getRawAxis(1));
+    return ScaleInputs.scaleInputs(controller1.getRawAxis(Constants.ControllerAxisNum[1]));
   }
   public static double calculateLeftSpeed(){
     double left = getSpeedVal()-getTurnVal(); //left is speed minus turn for arcade drive
@@ -36,6 +36,7 @@ public class OI extends SubsystemBase {
     double right = getSpeedVal()+getTurnVal();
     return right;
   }
+
 
   @Override
   public void periodic() {

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OI;
 import frc.robot.subsystems.Drivetrain.*;
@@ -29,7 +30,7 @@ public class ArcadeDrive extends CommandBase {
    */
   public ArcadeDrive(Drivetrain Drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.m_Drivetrain);
+    addRequirements(RobotContainer.m_Drivetrain);
   }
 
   // Called when the command is initially scheduled.
@@ -46,14 +47,14 @@ public class ArcadeDrive extends CommandBase {
     individually set the motor voltage to each side. If we set each side to the same voltage, the robot wouldn't turn.
     */
 
-    Robot.m_Drivetrain.setVoltage(OI.calculateLeftSpeed(), OI.calculateRightSpeed());
+    RobotContainer.m_Drivetrain.setVoltage(OI.calculateLeftSpeed(), OI.calculateRightSpeed());
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.m_Drivetrain.setVoltage(0, 0);
+    RobotContainer.m_Drivetrain.setVoltage(0, 0);
   }
 
   // Returns true when the command should end.
