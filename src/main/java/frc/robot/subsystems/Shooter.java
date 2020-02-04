@@ -35,12 +35,11 @@ public class Shooter extends SubsystemBase {
   public void shootOne(){
     startShooter();
     startFeeder();
-    new WaitCommand(2);
     stopShooter();
     stopFeeder();
   }
 
-  private void startShooter() {
+  public void startShooter() {
     shooterMotor.set(ControlMode.PercentOutput, 1);
   }
 

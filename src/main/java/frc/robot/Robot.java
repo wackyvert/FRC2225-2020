@@ -13,28 +13,21 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
-
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.DirectionSwitch;
-import frc.robot.commands.ShootBall;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Shooter;
-import edu.wpi.first.networktables.NetworkTableEntry;
 
 import java.util.Map;
 
 import static edu.wpi.first.wpilibj2.command.CommandScheduler.getInstance;
-import static frc.robot.RobotContainer.m_Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -53,7 +46,7 @@ public VictorSPX shooterMotor = new VictorSPX(5);
   private final ColorMatch m_colorMatcher = new ColorMatch();
   private double shooterVal;
   private double intakeVal;
-  private final XboxController controller = new XboxController(0);
+  private final XboxController controller = new XboxController(1);
     
 
   /**
@@ -70,17 +63,21 @@ public VictorSPX shooterMotor = new VictorSPX(5);
    */
   @Override
   public void robotInit() {
+      //Changing between xbox controller or joystick
       joyOrX = Shuffleboard.getTab("Robot Control")
               .add("Joystick Enabled?", false)
               .withWidget("Toggle Button")
               .getEntry();
-      //Slider to set shooter motor
+      /*Slider to set shooter motor - deprecated because we have the command for it now
       shooterSlider = Shuffleboard.getTab("Shooter")
               .add("Output Value", 0)
-              .withWidget(BuiltInWidgets.kNumberSlider)
+              .withWidget(B22uiltInWidgets.kNumberSlider)
               .withProperties(Map.of("min", -1, "max", 1))
               .getEntry();
 
+       */
+
+         // Slider to set intake motor once its mounted and working
       intakeSlider = Shuffleboard.getTab("Intake")
               .add("Output Value", 0)
               .withWidget(BuiltInWidgets.kNumberSlider)
@@ -90,10 +87,9 @@ public VictorSPX shooterMotor = new VictorSPX(5);
     final CameraServer camera = CameraServer.getInstance();
       camera.startAutomaticCapture();
     m_robotContainer = new RobotContainer();
-    //Sets the default command of the drivetrain subsystem to arcade drive
+    //Sets the default command of the drivetrain subsystem to arcade drive so I don't have to have anything in teleopPeriodic
     getInstance().setDefaultCommand(RobotContainer.m_Drivetrain, RobotContainer.m_ArcadeDrive);
-    //Sets the default command of the shooter subsystem to the shootBall command
-    //getInstance().setDefaultCommand(RobotContainer.m_Shooter, RobotContainer.m_shootBall);
+
   }
 
   /**
@@ -105,13 +101,6 @@ public VictorSPX shooterMotor = new VictorSPX(5);
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putData("Direction Switch", new DirectionSwitch());
-
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
-
     
    //The scheduler that runs the commands. DONT TOUCH
     getInstance().run();
@@ -148,8 +137,6 @@ public VictorSPX shooterMotor = new VictorSPX(5);
           Constants.ControllerAxisNum[0]=4;
           Constants.ControllerAxisNum[1]=1;
         }
-        intakeVal = intakeSlider.getDouble(0);
-        shooterVal = intakeSlider.getDouble(0);
 
   }
 
@@ -181,11 +168,6 @@ public VictorSPX shooterMotor = new VictorSPX(5);
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-
   }
     public void updateTracking(){
 
@@ -218,13 +200,7 @@ public VictorSPX shooterMotor = new VictorSPX(5);
    */
   @Override
   public void teleopPeriodic() {
-    
-
-      //shooterMotor.set(ControlMode.PercentOutput, -shooterSlider.getDouble(0));
-     // m_Shooter.startFeeder();
-      if(controller.getYButtonPressed()){
-          //feeder.set(ControlMode.PercentOutput, 1);
-      }
+feeder.set(ControlMode.PercentOutput, controller.getRawAxis(2));
   }
 
   @Override
