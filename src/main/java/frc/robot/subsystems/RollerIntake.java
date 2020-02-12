@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class RollerIntake extends SubsystemBase {
-    public static VictorSPX rollerIntake = new VictorSPX(7);
+    public static VictorSPX rollerIntake = new VictorSPX(5);
     public RollerIntake(){
 
     }

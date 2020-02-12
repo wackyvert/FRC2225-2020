@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AlignForwardAndSide;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DirectionSwitch;
 import frc.robot.commands.GrabPowerCell;
@@ -17,6 +18,7 @@ import frc.robot.commands.ShootBall;
 import frc.robot.commands.ShootOne;
 import frc.robot.commands.StopIntake;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.RollerIntake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.Constants;
@@ -41,12 +43,14 @@ public class RobotContainer {
   public static final Shooter m_Shooter = new Shooter();
   public static final ShootBall m_shootBall = new ShootBall();
   public static final DirectionSwitch m_DirectionSwitch = new DirectionSwitch();
-  public static final RollerIntake m_RollerIntake = new RollerIntake(); 
+  public static final RollerIntake m_RollerIntake = new RollerIntake();
   private final Joystick controller1 = new Joystick(Constants.DRIVER1_ID);
   private final XboxController XboxController1 = new XboxController(Constants.DRIVER1_ID);
   private final Joystick controller2 = new Joystick(Constants.DRIVER2_ID);
   private GrabPowerCell bruh = new GrabPowerCell();
-  
+  public static LimelightSubsystem m_Limelight = new LimelightSubsystem();
+  public static final AlignForwardAndSide m_Align = new AlignForwardAndSide();
+
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -79,7 +83,13 @@ public class RobotContainer {
     final JoystickButton startButton = new JoystickButton(controller1, 8);
     final JoystickButton rightJoystickButton = new JoystickButton(controller1, 9);
     final JoystickButton leftJoystickButton = new JoystickButton(controller1, 10);
-    
+    final JoystickButton rightBumperButton2 = new JoystickButton(controller1, 5);
+    final JoystickButton leftBumperButton2 = new JoystickButton(controller1, 6);
+    final JoystickButton squareButton2 = new JoystickButton(controller1, 7);
+    final JoystickButton startButton2 = new JoystickButton(controller1, 8);
+    final JoystickButton rightJoystickButton2 = new JoystickButton(controller1, 9);
+    final JoystickButton leftJoystickButton2 = new JoystickButton(controller1, 10);
+
 
 
     //xButton2.whenPressed(new ShootOne());
@@ -89,21 +99,16 @@ public class RobotContainer {
     xButton2.whenPressed(new ShootBall());
     aButton2.whileHeld(new GrabPowerCell());
     aButton2.whenReleased(new StopIntake());
-
-
-
-
-
-
+    leftJoystickButton2.whileHeld(new AlignForwardAndSide(), true);
   }
   //Getting the trigger as a button instead of an axis, as we dont really want any variability in how fast the shooter goes
-  
 
-  /**
+
+  /*
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  
+
 }
 

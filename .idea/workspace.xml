@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dbe0b23f-fb55-4532-8030-afdfe3a0ef26" name="Default Changelist" comment="Command Based Framework for Shoot Commands">
-      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/GrabPowerCell.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/StopIntake.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/RollerIntake.java" afterDir="false" />
+    <list default="true" id="dbe0b23f-fb55-4532-8030-afdfe3a0ef26" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AlignForwardAndSide.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/LimelightSubsystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/ShootBall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/ShootBall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/ShootOne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/ShootOne.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/OI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/OI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/ScaleInputs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/ScaleInputs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/StopIntake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/StopIntake.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Drivetrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Drivetrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/RollerIntake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/RollerIntake.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Shooter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Shooter.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -192,6 +190,11 @@
       <workItem from="1580574337848" duration="727000" />
       <workItem from="1580578650729" duration="2931000" />
       <workItem from="1580844335809" duration="52000" />
+      <workItem from="1580860466737" duration="4553000" />
+      <workItem from="1581103024567" duration="607000" />
+      <workItem from="1581183955475" duration="3388000" />
+      <workItem from="1581518714567" duration="680000" />
+      <workItem from="1581537371776" duration="506000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing everything so it all works">
       <created>1580309553010</created>
@@ -200,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580309553010</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Command Based Framework for Shoot Commands">
+      <created>1580860564969</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1580860564969</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

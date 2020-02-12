@@ -18,7 +18,7 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
  
-  private static VictorSPX shooterMotor = new VictorSPX(5);
+  private static VictorSPX shooterMotor = new VictorSPX(7);
   private static TalonSRX feeder = new TalonSRX(6);
   /**
    * Creates a new Shooter.

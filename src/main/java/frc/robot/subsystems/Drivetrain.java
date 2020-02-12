@@ -51,13 +51,11 @@ public class Drivetrain extends SubsystemBase {
     br.set(ControlMode.PercentOutput, 0);
   }
 
-  public void visionVoltage(double speed, double turn) {
-    double left = speed + turn;
-    double right = speed - turn;
-    fl.set(ControlMode.PercentOutput, left);
-    bl.set(ControlMode.PercentOutput, left);
-    fr.set(ControlMode.PercentOutput, right);
-    br.set(ControlMode.PercentOutput, right);
+  public void visionVoltage(double speedLeft, double speedRight) {
+    fl.set(ControlMode.PercentOutput, speedLeft);
+    bl.set(ControlMode.PercentOutput, speedLeft);
+    fr.set(ControlMode.PercentOutput, speedRight);
+    br.set(ControlMode.PercentOutput, speedRight);
   }
 
   @Override
