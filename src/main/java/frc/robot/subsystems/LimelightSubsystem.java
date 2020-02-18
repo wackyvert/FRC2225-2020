@@ -29,7 +29,7 @@ double targetSkew; //the skew away from the target
     targetOffsetAngle_Horizontal= table.getNumber("tx", 0); //updates the number
     targetOffsetAngle_Vertical= table.getNumber("ty", 0); //updates the number
     targetArea = table.getNumber("ta", 0); //updates the number
-    targetSkew = table.getNumber("ts", 0) //updates the number
+    targetSkew = table.getNumber("ts", 0); //updates the number
   }
   public double getHorizontalOffset(){
     return targetOffsetAngle_Horizontal;

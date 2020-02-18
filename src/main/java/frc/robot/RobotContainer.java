@@ -47,7 +47,7 @@ public class RobotContainer {
   private final Joystick controller1 = new Joystick(Constants.DRIVER1_ID);
   private final XboxController XboxController1 = new XboxController(Constants.DRIVER1_ID);
   private final Joystick controller2 = new Joystick(Constants.DRIVER2_ID);
-  private GrabPowerCell bruh = new GrabPowerCell();
+  public static GrabPowerCell bruh = new GrabPowerCell();
   public static LimelightSubsystem m_Limelight = new LimelightSubsystem();
   public static final AlignForwardAndSide m_Align = new AlignForwardAndSide();
 

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/frc2225-2020.iml" filepath="$PROJECT_DIR$/.idea/modules/frc2225-2020.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/frc2225-2020.main.iml" filepath="$PROJECT_DIR$/.idea/modules/frc2225-2020.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/frc2225-2020.test.iml" filepath="$PROJECT_DIR$/.idea/modules/frc2225-2020.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/frc2225.iml" filepath="$PROJECT_DIR$/.idea/modules/frc2225.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/frc2225.main.iml" filepath="$PROJECT_DIR$/.idea/modules/frc2225.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/frc2225.test.iml" filepath="$PROJECT_DIR$/.idea/modules/frc2225.test.iml" />
     </modules>
   </component>
 </project>

@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="frc2225-2020.main" target="11" />
       <module name="frc2225-2020.test" target="11" />
+      <module name="frc2225.main" target="11" />
+      <module name="frc2225.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
