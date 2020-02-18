@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AlignForwardAndSide;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.DefenseMode;
 import frc.robot.commands.DirectionSwitch;
 import frc.robot.commands.GrabPowerCell;
 import frc.robot.commands.ShootBall;
@@ -92,18 +93,17 @@ public class RobotContainer {
 
 
 
-    //xButton2.whenPressed(new ShootOne());
 
 
     xButton1.whenPressed(new DirectionSwitch());
     xButton2.whenPressed(new ShootBall());
-    aButton2.whileHeld(new GrabPowerCell());
-    aButton2.whenReleased(new StopIntake());
-    leftJoystickButton2.whileHeld(new AlignForwardAndSide(), true);
+    rightBumperButton2.whileHeld(new GrabPowerCell());
+    rightBumperButton2.whenReleased(new StopIntake());
+    leftBumperButton2.whileHeld(new DefenseMode());
+    leftBumperButton2.whenReleased(new StopIntake());
+    leftJoystickButton.whileHeld(new AlignForwardAndSide());
   }
-  //Getting the trigger as a button instead of an axis, as we dont really want any variability in how fast the shooter goes
-
-
+  
   /*
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
